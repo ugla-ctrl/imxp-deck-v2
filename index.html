@@ -95,11 +95,12 @@
   <div class="zone next" id="znext" aria-label="Next slide"></div>
 </div></div>
 
-<div id="meta"><span>IMXP · Fundraise Deck</span><span class="n" id="pg">01 / 23</span></div>
+<div id="meta"><span>IMXP · Fundraise Deck</span><span class="n" id="pg">01 / 24</span></div>
 <div id="ctr"></div>
 
 <script>
-  var TOTAL = 23;
+  var TOTAL = 24;
+  var VIDEO_SLIDE = 7;  // FIAB demo video
   var pad = function(n){return (n<10?'0':'')+n;};
   var src = function(n){return 'slides/slide-'+pad(n)+'.png';};
 
@@ -110,14 +111,27 @@
   var cache = {};
 
   // build slides + dots
+  var deckVideo = null;
   for (var n=1; n<=TOTAL; n++){
     var sec = document.createElement('section');
     sec.className = 'slide' + (n===1 ? ' active' : '');
-    var im = document.createElement('img');
-    im.alt = 'IMXP Fundraise Deck slide ' + n;
-    im.loading = (n<=2 ? 'eager' : 'lazy');
-    im.src = src(n);
-    sec.appendChild(im);
+    if (n === VIDEO_SLIDE) {
+      var vid = document.createElement('video');
+      vid.src = 'slides/slide-07.mp4';
+      vid.poster = src(n);
+      vid.controls = true;
+      vid.playsInline = true;
+      vid.preload = 'metadata';
+      vid.style.cssText = 'width:100%;height:100%;object-fit:contain;background:#000;position:relative;z-index:15;';
+      sec.appendChild(vid);
+      deckVideo = vid;
+    } else {
+      var im = document.createElement('img');
+      im.alt = 'IMXP Fundraise Deck slide ' + n;
+      im.loading = (n<=2 ? 'eager' : 'lazy');
+      im.src = src(n);
+      sec.appendChild(im);
+    }
     stage.appendChild(sec);
     slides.push(sec);
 
@@ -131,6 +145,10 @@
   function preload(k){ if(k<1||k>TOTAL||cache[k])return; var p=new Image(); p.src=src(k); cache[k]=p; }
   function go(n){
     i = Math.max(0, Math.min(TOTAL-1, n));
+    if (deckVideo && (i+1) !== VIDEO_SLIDE && !deckVideo.paused) deckVideo.pause();
+    var onVideo = (i+1) === VIDEO_SLIDE;
+    document.getElementById('znext').style.display = onVideo ? 'none' : '';
+    document.getElementById('zprev').style.display = onVideo ? 'none' : '';
     for (var k=0;k<slides.length;k++) slides[k].classList.toggle('active', k===i);
     var kids = ctr.children;
     for (var k=0;k<kids.length;k++) kids[k].classList.toggle('on', k===i);
@@ -156,7 +174,7 @@
     var t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy, dt=Date.now()-st;
     if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)){ go(i+(dx<0?1:-1)); return; }
     if(dt<350 && Math.abs(dx)<10 && Math.abs(dy)<10){
-      if(e.target.closest('#ctr')) return;
+      if(e.target.closest('#ctr') || e.target.closest('video')) return;
       if(t.clientX < window.innerWidth*0.2) go(i-1); else go(i+1);
     }
   }, {passive:true});

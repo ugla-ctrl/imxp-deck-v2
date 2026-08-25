@@ -1,12 +1,12 @@
 {
   "slides": {
-    "7": {
+    "8": {
       "title": "Platform Build Roadmap",
       "sheetId": "1n9GtPnH9DcjBff-Hc0t6B_o0kUhGMk8SMTamj2ZeYNw",
       "sheetTitle": "IMXP Product Dev GANTT",
       "labelMap": "sheet-sync/label_map.json",
       "renderer": "sheet-sync/render_slide.py",
-      "slideFile": "slides/slide-07.png",
+      "slideFile": "slides/slide-08.png",
       "lastSyncedModifiedTime": "2026-08-25T00:37:40.853Z"
     }
   },
@@ -19,9 +19,9 @@
       2,
       3,
       4,
-      11,
-      15,
-      16
+      12,
+      16,
+      17
     ],
     "fieldsUsed": {
       "2": [
@@ -35,15 +35,15 @@
         "headline",
         "body"
       ],
-      "11": [
-        "headline",
-        "body"
-      ],
-      "15": [
+      "12": [
         "headline",
         "body"
       ],
       "16": [
+        "headline",
+        "body"
+      ],
+      "17": [
         "headline",
         "body"
       ]
@@ -52,10 +52,17 @@
       "2": "bcf6e511ac0d3d2b",
       "3": "4a1f3b873bed1d7b",
       "4": "798380b02001a78a",
-      "11": "8b54630ab058022c",
-      "15": "d811be01a5b7fe20",
-      "16": "aa34e8d05f54e3e8"
+      "12": "8b54630ab058022c",
+      "16": "d811be01a5b7fe20",
+      "17": "aa34e8d05f54e3e8"
     },
     "hashSpec": "sha256(json{headline,subheadline,body stripped})[:16]"
+  },
+  "videoSlide": {
+    "slide": 7,
+    "file": "slides/slide-07.mp4",
+    "poster": "slides/slide-07.png",
+    "source": "Festival In a Box (Demo).mov, Benjamin Hill via Slack, transcoded",
+    "note": "Never rendered from sheets; managed manually."
   }
 }
