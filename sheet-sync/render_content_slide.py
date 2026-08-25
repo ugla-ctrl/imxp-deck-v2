@@ -8,8 +8,8 @@ synthesized grain (noise statistics sampled from neighbouring pixels) so the
 patch is invisible, then re-typeset in the deck's fonts.
 
 Editable slides + which sheet fields they consume are defined in ZONES.
-Slides not listed here are static; slide 8 (roadmap) is handled by render_slide.py
-and slide 7 is the FIAB demo video slide.
+Slides not listed here are static; slide 9 (roadmap) is handled by render_slide.py, slide 7 is the Iceland
+recap (make_recap_slide.py), and slide 8 is the FIAB demo video slide.
 
 Usage:
   render_content_slide.py <slide_no> <fields.json> <output.png>
@@ -59,13 +59,13 @@ ZONES = {
              sample=(300, 60, 900, 110), fields=['body'],
              font=('archivo-3.ttf', 33), align='left', color=INK, leading=1.15),
     ],
-    12: [
+    13: [
         dict(name='statement', box=(170, 330, 1750, 770), fill='inpaint',
              sample=None, fields=['headline', 'body'],
              font=('archivo-3.ttf', 52), align='center', color=WHITE,
              leading=1.25, para_gap=1.2),
     ],
-    16: [
+    17: [
         dict(name='headline', box=(84, 170, 1180, 290), fill='inpaint',
              sample=None, fields=['headline'],
              font=('archivo-3.ttf', 40), align='left', color=WHITE, leading=1.15),
@@ -74,7 +74,7 @@ ZONES = {
              font=('inter-1.ttf', 30), align='left', color=(232, 232, 232),
              leading=1.35, para_gap=0.9),
     ],
-    17: [
+    18: [
         dict(name='headline', box=(84, 150, 810, 330), fill='inpaint', thresh=40, dilate=2,
              sample=None, fields=['headline'],
              font=('archivo-3.ttf', 58), align='left', color=WHITE, leading=1.1),

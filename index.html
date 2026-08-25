@@ -95,12 +95,12 @@
   <div class="zone next" id="znext" aria-label="Next slide"></div>
 </div></div>
 
-<div id="meta"><span>IMXP · Fundraise Deck</span><span class="n" id="pg">01 / 24</span></div>
+<div id="meta"><span>IMXP · Fundraise Deck</span><span class="n" id="pg">01 / 25</span></div>
 <div id="ctr"></div>
 
 <script>
-  var TOTAL = 24;
-  var VIDEO_SLIDE = 7;  // FIAB demo video
+  var TOTAL = 25;
+  var VIDEO_SLIDE = 8;  // FIAB demo video
   var pad = function(n){return (n<10?'0':'')+n;};
   var src = function(n){return 'slides/slide-'+pad(n)+'.png';};
 
@@ -117,7 +117,7 @@
     sec.className = 'slide' + (n===1 ? ' active' : '');
     if (n === VIDEO_SLIDE) {
       var vid = document.createElement('video');
-      vid.src = 'slides/slide-07.mp4';
+      vid.src = 'slides/slide-08.mp4';
       vid.poster = src(n);
       vid.controls = true;
       vid.playsInline = true;
