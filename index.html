@@ -53,9 +53,43 @@
     .slide img{object-fit:contain}
     #meta{bottom:2.2vh}
   }
+  /* email gate (demo, front-end only) */
+  #gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(170deg,#EEF1F6,#EDE7F0);padding:24px}
+  #gate.hide{display:none}
+  #gate .card{width:min(430px,92vw);background:#fff;border-radius:16px;padding:38px 34px;text-align:center;
+    box-shadow:0 30px 80px rgba(44,55,99,.20),0 4px 16px rgba(44,55,99,.10);border:1px solid rgba(61,85,168,.08)}
+  #gate .glogo{font-weight:800;font-size:30px;letter-spacing:.02em;color:var(--navy);margin-bottom:4px}
+  #gate .gsub{color:#8A90AE;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:24px}
+  #gate h2{font-size:19px;font-weight:600;color:var(--navy);margin-bottom:6px}
+  #gate p{color:#57608A;font-size:14px;line-height:1.5;margin-bottom:20px}
+  #gate form{display:flex;flex-direction:column;gap:11px}
+  #gate input{width:100%;padding:13px 15px;border-radius:9px;border:1px solid rgba(61,85,168,.22);
+    background:#fff;color:var(--navy);font-size:15px;outline:none}
+  #gate input:focus{border-color:var(--indigo)}
+  #gate input::placeholder{color:#A6ABC4}
+  #gate button{width:100%;padding:13px;border-radius:9px;border:none;cursor:pointer;
+    background:var(--indigo);color:#fff;font-size:15px;font-weight:600;transition:opacity .15s}
+  #gate button:hover{opacity:.9}
+  #gate .err{color:#c0392b;font-size:13px;min-height:16px;text-align:left}
+  #gate .fine{color:#9AA0BC;font-size:11px;margin-top:16px;line-height:1.5}
 </style>
 </head>
 <body>
+<div id="gate">
+  <div class="card">
+    <div class="glogo">IMXP</div>
+    <div class="gsub">Fundraise Deck</div>
+    <h2>View the deck</h2>
+    <p>Enter your email to continue.</p>
+    <form id="gateForm" novalidate>
+      <input id="gateEmail" type="email" placeholder="you@company.com" autocomplete="email" />
+      <div class="err" id="gateErr"></div>
+      <button type="submit">View deck →</button>
+    </form>
+    <div class="fine">Demo only · nothing is sent or saved to a server.</div>
+  </div>
+</div>
 <div id="frame"><div id="stage">
   <div class="zone prev" id="zprev" aria-label="Previous slide"></div>
   <div class="zone next" id="znext" aria-label="Next slide"></div>
@@ -137,6 +171,25 @@
   // deep-link via hash
   var start = parseInt((location.hash||'').replace('#',''),10);
   go(start>=1 && start<=TOTAL ? start-1 : 0);
+
+  // email gate (demo only, front-end)
+  (function(){
+    var KEY='imxp_demo_unlocked';
+    var gate=document.getElementById('gate');
+    if(localStorage.getItem(KEY)){ gate.classList.add('hide'); return; }
+    var form=document.getElementById('gateForm');
+    var email=document.getElementById('gateEmail');
+    var err=document.getElementById('gateErr');
+    var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var v=email.value.trim();
+      if(!re.test(v)){ err.textContent='Please enter a valid email address.'; email.focus(); return; }
+      try{ localStorage.setItem(KEY,'1'); }catch(_){}
+      gate.classList.add('hide');
+    });
+    email.focus();
+  })();
 </script>
 </body>
 </html>
