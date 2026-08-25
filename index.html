@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>IMXP · Fundraise Deck</title>
 <meta name="description" content="IMXP — Immersive Experiences at Global Scale. Fundraise Deck." />
 <meta property="og:title" content="IMXP · Fundraise Deck" />
@@ -47,11 +47,34 @@
   .zone.prev{left:0}
   .zone.next{right:0;width:67%}
 
+  /* ===== mobile & tablet (desktop / landscape-desktop layout untouched) ===== */
+  /* Portrait phones and tablets: fit the 16:9 slide to width, centered, with
+     room reserved below for the counter and dot navigation. */
   @media (max-width:1024px) and (orientation:portrait){
-    #frame{padding:1.6vh 3vw}
-    #stage{aspect-ratio:auto;width:100%;height:calc(100dvh - 3.2vh - 40px)}
-    .slide img{object-fit:contain}
-    #meta{bottom:2.2vh}
+    #frame{padding:2vh 2vw calc(4.8vh + 34px)}
+    #stage{aspect-ratio:16/9;width:96vw;height:auto;max-height:calc(100dvh - 12vh)}
+    .slide img{object-fit:cover}
+    #meta{bottom:calc(3.0vh + 20px)}
+    #ctr{bottom:1.6vh}
+  }
+  /* Landscape phones (short viewport): fit the slide by height and keep the
+     controls clear of it. */
+  @media (max-height:500px) and (orientation:landscape){
+    #frame{padding:1.4vh 1.4vw calc(1.4vh + 20px)}
+    #stage{width:min(96vw,calc((100dvh - 2.8vh - 20px)*16/9));height:auto}
+    #meta{bottom:3px;font-size:.5rem}
+    #ctr{bottom:2px}
+  }
+  /* Touch devices only (a fine-pointer desktop never matches): larger dot
+     hit targets, no rubber-band scroll fighting swipes, and a 16px gate input
+     so iOS Safari does not zoom on focus. */
+  @media (pointer:coarse){
+    html,body{overscroll-behavior:none;-webkit-text-size-adjust:100%}
+    #ctr{gap:11px}
+    #ctr button{width:9px;height:9px}
+    #ctr button.on{transform:scale(1.5)}
+    .zone{-webkit-tap-highlight-color:transparent}
+    #gate input{font-size:16px}
   }
   /* email gate (demo, front-end only) — black theme */
   #gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
