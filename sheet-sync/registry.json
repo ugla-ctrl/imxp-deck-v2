@@ -14,7 +14,7 @@
     "sheetId": "1Udfofh6peGbpNyYUhFPFqOs0gMlcDYF_ZuCH1NM4beE",
     "sheetTitle": "IMXP Deck - Content Editor",
     "renderer": "sheet-sync/render_content_slide.py",
-    "lastSyncedModifiedTime": "2026-08-25T20:12:42.134Z",
+    "lastSyncedModifiedTime": "2026-08-25T21:56:27.722Z",
     "editableSlides": [
       2,
       3,
@@ -49,8 +49,8 @@
       ]
     },
     "contentHashes": {
-      "2": "bcf6e511ac0d3d2b",
-      "3": "4a1f3b873bed1d7b",
+      "2": "3b5d8f9d0740030b",
+      "3": "e441cbed894537fd",
       "4": "798380b02001a78a",
       "13": "8b54630ab058022c",
       "17": "d811be01a5b7fe20",
