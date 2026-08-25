@@ -9,5 +9,53 @@
       "slideFile": "slides/slide-07.png",
       "lastSyncedModifiedTime": "2026-08-25T00:37:40.853Z"
     }
+  },
+  "contentEditor": {
+    "sheetId": "1Udfofh6peGbpNyYUhFPFqOs0gMlcDYF_ZuCH1NM4beE",
+    "sheetTitle": "IMXP Deck - Content Editor",
+    "renderer": "sheet-sync/render_content_slide.py",
+    "lastSyncedModifiedTime": "2026-08-25T19:45:19.971Z",
+    "editableSlides": [
+      2,
+      3,
+      4,
+      11,
+      15,
+      16
+    ],
+    "fieldsUsed": {
+      "2": [
+        "headline"
+      ],
+      "3": [
+        "subheadline",
+        "body"
+      ],
+      "4": [
+        "headline",
+        "body"
+      ],
+      "11": [
+        "headline",
+        "body"
+      ],
+      "15": [
+        "headline",
+        "body"
+      ],
+      "16": [
+        "headline",
+        "body"
+      ]
+    },
+    "contentHashes": {
+      "2": "bcf6e511ac0d3d2b",
+      "3": "4a1f3b873bed1d7b",
+      "4": "798380b02001a78a",
+      "11": "8b54630ab058022c",
+      "15": "d811be01a5b7fe20",
+      "16": "aa34e8d05f54e3e8"
+    },
+    "hashSpec": "sha256(json{headline,subheadline,body stripped})[:16]"
   }
 }

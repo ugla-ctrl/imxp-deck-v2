@@ -35,3 +35,13 @@ See `registry.json`. Currently:
 Add an entry to `registry.json` (sheet id + renderer + slide file), create a
 label map, and write a renderer for that slide's layout. The scheduled task
 iterates over every entry.
+
+## Content-editor slides
+
+`render_content_slide.py` re-renders the text zones of the editable slides
+(2, 3, 4, 11, 15, 16) from the **"IMXP Deck - Content Editor"** sheet, on top
+of pristine plates in `plates/`. Original text pixels are removed by inpainting
+(grain/glow backgrounds preserved), then the sheet copy is re-typeset in the
+deck fonts. Per-slide content hashes in `registry.json` ensure only slides whose
+sheet row actually changed get re-rendered. Rows for non-editable slides are a
+content reference only — changing them requires manual design work.
