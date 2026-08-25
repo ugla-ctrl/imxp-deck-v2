@@ -38,8 +38,8 @@ INK = (12, 12, 15)
 #  bullets: prefix wrapped lines from '- ' items with a dot
 ZONES = {
     2: [
-        dict(name='statement', box=(320, 330, 1600, 760), fill='inpaint',
-             sample=None, fields=['headline'],
+        dict(name='statement', box=(320, 330, 1600, 760), fill='none',
+             sample=None, fields=['headline'], valign='middle',
              font=('archivo-3.ttf', 64), align='center', color=WHITE, leading=1.22),
     ],
     3: [
@@ -60,8 +60,8 @@ ZONES = {
              font=('archivo-3.ttf', 33), align='left', color=INK, leading=1.15),
     ],
     13: [
-        dict(name='statement', box=(170, 330, 1750, 770), fill='inpaint',
-             sample=None, fields=['headline', 'body'],
+        dict(name='statement', box=(170, 330, 1750, 770), fill='none',
+             sample=None, fields=['headline', 'body'], valign='middle',
              font=('archivo-3.ttf', 52), align='center', color=WHITE,
              leading=1.25, para_gap=1.2),
     ],
@@ -95,6 +95,8 @@ def F(file, size):
 def clear_zone(img, z):
     x0, y0, x1, y1 = z['box']
     a = np.asarray(img).astype(np.float32)
+    if z['fill'] == 'none':
+        return img
     if z['fill'] == 'flat':
         sx0, sy0, sx1, sy1 = z['sample']
         strip = a[sy0:sy1, sx0:sx1].reshape(-1, 3)
@@ -160,6 +162,8 @@ def typeset(img, z, text):
             break
         size -= 2
     y = y0
+    if z.get('valign') == 'middle':
+        y = y0 + max(0, ((y1 - y0) - total) // 2)
     for ln in lines:
         if ln == '':
             y += para_gap
