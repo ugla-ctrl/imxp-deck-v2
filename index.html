@@ -53,26 +53,26 @@
     .slide img{object-fit:contain}
     #meta{bottom:2.2vh}
   }
-  /* email gate (demo, front-end only) */
+  /* email gate (demo, front-end only) — black theme */
   #gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(170deg,#EEF1F6,#EDE7F0);padding:24px}
+    background:#000;padding:24px}
   #gate.hide{display:none}
-  #gate .card{width:min(430px,92vw);background:#fff;border-radius:16px;padding:38px 34px;text-align:center;
-    box-shadow:0 30px 80px rgba(44,55,99,.20),0 4px 16px rgba(44,55,99,.10);border:1px solid rgba(61,85,168,.08)}
-  #gate .glogo{font-weight:800;font-size:30px;letter-spacing:.02em;color:var(--navy);margin-bottom:4px}
-  #gate .gsub{color:#8A90AE;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:24px}
-  #gate h2{font-size:19px;font-weight:600;color:var(--navy);margin-bottom:6px}
-  #gate p{color:#57608A;font-size:14px;line-height:1.5;margin-bottom:20px}
+  #gate .card{width:min(430px,92vw);background:#0d0d10;border-radius:16px;padding:38px 34px;text-align:center;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.10)}
+  #gate .glogo{font-weight:800;font-size:30px;letter-spacing:.02em;color:#fff;margin-bottom:4px}
+  #gate .gsub{color:rgba(255,255,255,.5);font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:24px}
+  #gate h2{font-size:19px;font-weight:600;color:#fff;margin-bottom:6px}
+  #gate p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.5;margin-bottom:20px}
   #gate form{display:flex;flex-direction:column;gap:11px}
-  #gate input{width:100%;padding:13px 15px;border-radius:9px;border:1px solid rgba(61,85,168,.22);
-    background:#fff;color:var(--navy);font-size:15px;outline:none}
-  #gate input:focus{border-color:var(--indigo)}
-  #gate input::placeholder{color:#A6ABC4}
+  #gate input{width:100%;padding:13px 15px;border-radius:9px;border:1px solid rgba(255,255,255,.22);
+    background:rgba(255,255,255,.06);color:#fff;font-size:15px;outline:none}
+  #gate input:focus{border-color:rgba(255,255,255,.55)}
+  #gate input::placeholder{color:rgba(255,255,255,.4)}
   #gate button{width:100%;padding:13px;border-radius:9px;border:none;cursor:pointer;
-    background:var(--indigo);color:#fff;font-size:15px;font-weight:600;transition:opacity .15s}
-  #gate button:hover{opacity:.9}
-  #gate .err{color:#c0392b;font-size:13px;min-height:16px;text-align:left}
-  #gate .fine{color:#9AA0BC;font-size:11px;margin-top:16px;line-height:1.5}
+    background:#fff;color:#000;font-size:15px;font-weight:600;transition:opacity .15s}
+  #gate button:hover{opacity:.85}
+  #gate .err{color:#ff6b6b;font-size:13px;min-height:16px;text-align:left}
+  #gate .fine{color:rgba(255,255,255,.35);font-size:11px;margin-top:16px;line-height:1.5}
 </style>
 </head>
 <body>
