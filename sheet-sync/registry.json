@@ -1,0 +1,13 @@
+{
+  "slides": {
+    "7": {
+      "title": "Platform Build Roadmap",
+      "sheetId": "1n9GtPnH9DcjBff-Hc0t6B_o0kUhGMk8SMTamj2ZeYNw",
+      "sheetTitle": "IMXP Product Dev GANTT",
+      "labelMap": "sheet-sync/label_map.json",
+      "renderer": "sheet-sync/render_slide.py",
+      "slideFile": "slides/slide-07.png",
+      "lastSyncedModifiedTime": "2026-08-25T00:37:40.853Z"
+    }
+  }
+}

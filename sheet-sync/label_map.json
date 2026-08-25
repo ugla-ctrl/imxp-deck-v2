@@ -1,0 +1,42 @@
+{
+  "_comment": "Maps exact Task text from the 'IMXP Product Dev GANTT' sheet to slide-7 pills. Positions/dates for every group below are recomputed live from the sheet on each sync. A sheet row whose Task text isn't found here, and isn't listed in excludedTasks, is reported as unmapped so a human can decide how (or whether) to add it, instead of it being guessed at.",
+
+  "provingEvents": {
+    "ATOMIKA":      { "anchorTask": "Benjamin in Atomika prod/ops" },
+    "COHERENCE":    { "anchorTask": "Coherence: on-sale / demand ladder" },
+    "MIDNIGHT SUN": { "anchorTask": "Midnight Sun: full cycle on FiaB" },
+    "EGYPT":        { "anchorTask": "Egypt: end-to-end test" }
+  },
+
+  "groups": {
+    "capture_iceland":     { "lane": "Capture", "row": 0, "label": "Iceland",           "tasks": ["Iceland: DBs + ingest tools", "Pull WhatsApp/Slack history, store", "Simplifi Audience Capture Ingestion"] },
+    "capture_atomika":     { "lane": "Capture", "row": 0, "label": "Atomika",           "tasks": ["Atomika capture pipelines"] },
+    "capture_coherence":   { "lane": "Capture", "row": 0, "label": "Coherence",         "tasks": ["Coherence capture pipelines"] },
+    "capture_msun_egypt":  { "lane": "Capture", "row": 0, "label": "M.Sun + Egypt",     "tasks": ["Midnight Sun + Egypt capture"] },
+
+    "build_insights":      { "lane": "Build", "row": 0, "label": "Insights engine",         "tasks": ["Insights tool + truth source", "Harden Ideate + Validate stages"] },
+    "build_marketing":     { "lane": "Build", "row": 0, "label": "Marketing tooling v1",     "tasks": ["Market stage v1"] },
+    "build_plan_pm":       { "lane": "Build", "row": 1, "label": "Plan stage + PM tooling",  "tasks": ["Plan stage: scope + first build", "Product Management tooling"] },
+    "build_coaching":      { "lane": "Build", "row": 1, "label": "Auto coaching",            "tasks": ["Coach: deterministic nudges", "Task template, real lead times"] },
+
+    "prove_coherence":     { "lane": "Prove", "row": 0, "label": "Coherence: FIAB testing → live demand ladder", "tasks": ["Coherence: ideate + validate FIAB stage testing", "Coherence: plan stage", "Coherence: on-sale / demand ladder"] },
+    "prove_egypt":         { "lane": "Prove", "row": 0, "label": "Egypt: end-to-end",        "tasks": ["Egypt: end-to-end test"] },
+    "prove_msun":          { "lane": "Prove", "row": 1, "label": "Midnight Sun: full FIAB cycle", "tasks": ["Midnight Sun: full cycle on FiaB"] },
+
+    "harvest_iceland":     { "lane": "Harvest", "row": 0, "label": "Iceland → template", "tasks": ["Iceland harvest to first template"] },
+    "harvest_atomika":     { "lane": "Harvest", "row": 0, "label": "Atomika",               "tasks": ["Atomika harvest + outcomes"] },
+    "harvest_coherence":   { "lane": "Harvest", "row": 0, "label": "Coherence",              "tasks": ["Coherence harvest + outcomes"] },
+    "harvest_msun_egypt":  { "lane": "Harvest", "row": 0, "label": "M.Sun + Egypt",          "tasks": ["Midnight Sun + Egypt harvest"] }
+  },
+
+  "gates": {
+    "Iceland corpus freeze":               { "label": "Iceland corpus freeze",               "side": "left" },
+    "Go/no-go: Plan module on Coherence":  { "label": "Go/no-go: Plan module on Coherence",  "side": "right" }
+  },
+
+  "excludedTasks": [
+    "PM tools development on Atomika",
+    "VIP management tooling",
+    "Inter-festival comms tooling"
+  ]
+}
