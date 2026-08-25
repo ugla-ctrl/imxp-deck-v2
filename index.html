@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IMXP · Fundraise Deck</title>
+<meta name="description" content="IMXP — Immersive Experiences at Global Scale. Fundraise Deck." />
+<meta property="og:title" content="IMXP · Fundraise Deck" />
+<meta property="og:description" content="Immersive Experiences at Global Scale." />
+<meta property="og:image" content="slides/slide-01.png" />
+<meta name="theme-color" content="#EEF1F6" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232C3763'/><text y='72' x='50' font-size='58' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>i</text></svg>" />
+<style>
+  /* Interface adapted from the Midnight Sun deck: light frame, rounded shadowed
+     16:9 stage, cross-fade slides, bottom-center dot navigation. */
+  :root{
+    --indigo:#3D55A8; --navy:#2C3763;
+    --sans:'Inter','Helvetica Neue',Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;font-family:var(--sans);-webkit-font-smoothing:antialiased;
+    background:linear-gradient(170deg,#EEF1F6,#EDE7F0)}
+  #frame{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:3.2vh 2.4vw}
+  #stage{position:relative;aspect-ratio:16/9;width:min(94vw,calc(93vh*16/9));
+    border-radius:14px;overflow:hidden;
+    box-shadow:0 30px 80px rgba(44,55,99,.28),0 4px 16px rgba(44,55,99,.12);
+    background:#0b0b0f}
+  .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .55s ease;background:#0b0b0f}
+  .slide.active{opacity:1;visibility:visible}
+  .slide img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* footer strip under the stage: deck label + page number */
+  #meta{position:fixed;left:50%;transform:translateX(-50%);bottom:3.0vh;z-index:20;
+    display:flex;align-items:center;gap:14px;pointer-events:none;
+    font-size:clamp(.44rem,.72vw,.62rem);letter-spacing:.3em;text-transform:uppercase;color:#8A90AE}
+  #meta .n{font-variant-numeric:tabular-nums;color:var(--navy)}
+
+  /* dot navigation (identical treatment to the source deck) */
+  #ctr{position:fixed;bottom:1.1vh;left:50%;transform:translateX(-50%);
+    display:flex;gap:8px;z-index:30;max-width:92vw;flex-wrap:wrap;justify-content:center}
+  #ctr button{width:6px;height:6px;border-radius:50%;border:none;background:rgba(61,85,168,.25);
+    cursor:pointer;padding:0;transition:.3s}
+  #ctr button.on{background:var(--indigo);transform:scale(1.45)}
+
+  /* click zones for prev / next over the stage */
+  .zone{position:absolute;top:0;bottom:0;width:33%;z-index:10;cursor:pointer}
+  .zone.prev{left:0}
+  .zone.next{right:0;width:67%}
+
+  @media (max-width:1024px) and (orientation:portrait){
+    #frame{padding:1.6vh 3vw}
+    #stage{aspect-ratio:auto;width:100%;height:calc(100dvh - 3.2vh - 40px)}
+    .slide img{object-fit:contain}
+    #meta{bottom:2.2vh}
+  }
+</style>
+</head>
+<body>
+<div id="frame"><div id="stage">
+  <div class="zone prev" id="zprev" aria-label="Previous slide"></div>
+  <div class="zone next" id="znext" aria-label="Next slide"></div>
+</div></div>
+
+<div id="meta"><span>IMXP · Fundraise Deck</span><span class="n" id="pg">01 / 23</span></div>
+<div id="ctr"></div>
+
+<script>
+  var TOTAL = 23;
+  var pad = function(n){return (n<10?'0':'')+n;};
+  var src = function(n){return 'slides/slide-'+pad(n)+'.png';};
+
+  var stage = document.getElementById('stage');
+  var ctr = document.getElementById('ctr');
+  var pg = document.getElementById('pg');
+  var slides = [];
+  var cache = {};
+
+  // build slides + dots
+  for (var n=1; n<=TOTAL; n++){
+    var sec = document.createElement('section');
+    sec.className = 'slide' + (n===1 ? ' active' : '');
+    var im = document.createElement('img');
+    im.alt = 'IMXP Fundraise Deck slide ' + n;
+    im.loading = (n<=2 ? 'eager' : 'lazy');
+    im.src = src(n);
+    sec.appendChild(im);
+    stage.appendChild(sec);
+    slides.push(sec);
+
+    var b = document.createElement('button');
+    b.setAttribute('aria-label','Go to slide '+n);
+    b.addEventListener('click', (function(k){return function(e){e.stopPropagation();go(k);};})(n-1));
+    ctr.appendChild(b);
+  }
+
+  var i = 0;
+  function preload(k){ if(k<1||k>TOTAL||cache[k])return; var p=new Image(); p.src=src(k); cache[k]=p; }
+  function go(n){
+    i = Math.max(0, Math.min(TOTAL-1, n));
+    for (var k=0;k<slides.length;k++) slides[k].classList.toggle('active', k===i);
+    var kids = ctr.children;
+    for (var k=0;k<kids.length;k++) kids[k].classList.toggle('on', k===i);
+    pg.textContent = pad(i+1)+' / '+TOTAL;
+    if (location.hash !== '#'+(i+1)) history.replaceState(null,'','#'+(i+1));
+    preload(i+2); preload(i+3);
+  }
+
+  document.getElementById('znext').addEventListener('click', function(){ go(i+1); });
+  document.getElementById('zprev').addEventListener('click', function(){ go(i-1); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ go(i+1); e.preventDefault(); }
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){ go(i-1); e.preventDefault(); }
+    if(e.key==='Home') go(0);
+    if(e.key==='End') go(TOTAL-1);
+  });
+
+  // touch: swipe + tap-to-advance (left-edge tap = back)
+  var sx=0, sy=0, st=0;
+  document.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; sy=e.touches[0].clientY; st=Date.now(); }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy, dt=Date.now()-st;
+    if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)){ go(i+(dx<0?1:-1)); return; }
+    if(dt<350 && Math.abs(dx)<10 && Math.abs(dy)<10){
+      if(e.target.closest('#ctr')) return;
+      if(t.clientX < window.innerWidth*0.2) go(i-1); else go(i+1);
+    }
+  }, {passive:true});
+
+  // wheel / trackpad
+  var wl=0;
+  document.addEventListener('wheel', function(e){
+    var t=Date.now(); if(t-wl<700) return;
+    if(Math.abs(e.deltaY)>30||Math.abs(e.deltaX)>30){ wl=t; go(i+((e.deltaY+e.deltaX)>0?1:-1)); }
+  }, {passive:true});
+
+  // deep-link via hash
+  var start = parseInt((location.hash||'').replace('#',''),10);
+  go(start>=1 && start<=TOTAL ? start-1 : 0);
+</script>
+</body>
+</html>
