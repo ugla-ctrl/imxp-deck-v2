@@ -122,7 +122,7 @@ def main():
 
 def render(groups, gates, events, logo_path, out_path):
     W, H = 1920, 1080
-    img = Image.new('RGB', (W, H), (11, 11, 14))
+    img = Image.new('RGB', (W, H), 'white')
     d = ImageDraw.Draw(img)
 
     def F(file, size):
@@ -130,14 +130,15 @@ def render(groups, gates, events, logo_path, out_path):
 
     NAVY1, NAVY2, NAVY3, NAVY4 = '#211d54', '#37337a', '#4d4a9e', '#7a77c9'
     TEAL, GREEN, YELLOW, LAV, ORANGE = '#8fe6e2', '#96eda1', '#ffd75e', '#c3bdf2', '#ffbe7d'
-    INK, GRAY, LINE = '#ffffff', '#9aa0ae', '#2a2a34'
-    PILL_INK = '#0c0c0f'
+    INK, GRAY, LINE = '#0c0c0f', '#5a5a66', '#d8d8e0'
 
     d.text((84, 62), 'Product', font=F('archivo-3.ttf', 30), fill=INK)
     logo = Image.open(logo_path)
     lw = int(logo.width * (52 / logo.height))
     logo_r = logo.resize((lw, 52), Image.LANCZOS)
-    img.paste(logo_r, (W - 84 - lw, 52), logo_r)
+    black = Image.new('RGBA', logo_r.size, (12, 12, 15, 255))
+    black.putalpha(logo_r.getchannel('A'))
+    img.paste(black, (W - 84 - lw, 52), black)
 
     hf = F('archivo-3.ttf', 62)
     d.text((84, 140), 'Our operating system ships alongside', font=hf, fill=INK)
@@ -172,7 +173,7 @@ def render(groups, gates, events, logo_path, out_path):
             x0 -= x1 - (X1 + notch)
             x1 = X1 + notch
         d.rounded_rectangle([x0, y, x1, y + h], radius=h / 2, fill=col)
-        d.text(((x0 + x1) / 2 - tw / 2, y + h / 2 - fsize * 0.62), label, font=f, fill=PILL_INK)
+        d.text(((x0 + x1) / 2 - tw / 2, y + h / 2 - fsize * 0.62), label, font=f, fill=INK)
         return x1
 
     def lane_label(text, y, sub=None):
@@ -197,7 +198,7 @@ def render(groups, gates, events, logo_path, out_path):
             cx = placed[-1] + 14 + half
         cx = min(cx, X1 + notch - half)
         d.rounded_rectangle([cx - half, 446, cx + half, 446 + PH], radius=PH / 2, fill=TEAL)
-        d.text((cx - tw / 2, 446 + PH / 2 - 14), name, font=f, fill=PILL_INK)
+        d.text((cx - tw / 2, 446 + PH / 2 - 14), name, font=f, fill=INK)
         placed.append(cx + half)
     d.line([(X0 - 10, 510), (X1 + notch, 510)], fill=LINE, width=2)
 
@@ -239,7 +240,7 @@ def render(groups, gates, events, logo_path, out_path):
             d.text((cx + 18, gy - 11), label, font=f, fill='#c23a2b')
 
     P0, P1 = 912, 1030
-    d.rounded_rectangle([84, P0, W - 84, P1], radius=10, fill='#14181f', outline='#2a3140', width=2)
+    d.rounded_rectangle([84, P0, W - 84, P1], radius=10, fill='#0d1117')
     d.text((116, P0 + 22), 'IMXP OPERATING SYSTEM', font=F('archivo-3.ttf', 26), fill='white')
     d.text((116, P0 + 62), 'Every event is a live test; each harvest feeds the next build.',
            font=F('inter-1.ttf', 20), fill='#9aa4b2')
