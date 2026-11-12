@@ -88,7 +88,7 @@
   #gate p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.5;margin-bottom:20px}
   #gate form{display:flex;flex-direction:column;gap:11px}
   #gate input{width:100%;padding:13px 15px;border-radius:9px;border:1px solid rgba(255,255,255,.22);
-    background:rgba(255,255,255,.06);color:#fff;font-size:15px;outline:none}
+    background:rgba(255,255,255,.06);color:#fff;font-size:16px;outline:none}
   #gate input:focus{border-color:rgba(255,255,255,.55)}
   #gate input::placeholder{color:rgba(255,255,255,.4)}
   #gate button{width:100%;padding:13px;border-radius:9px;border:none;cursor:pointer;
@@ -110,7 +110,7 @@
       <div class="err" id="gateErr"></div>
       <button type="submit">View deck →</button>
     </form>
-    <div class="fine">Demo only · nothing is sent or saved to a server.</div>
+    <div class="fine">We'll only use your email to follow up about this deck.</div>
   </div>
 </div>
 <div id="frame"><div id="stage">
@@ -213,24 +213,51 @@
   var start = parseInt((location.hash||'').replace('#',''),10);
   go(start>=1 && start<=TOTAL ? start-1 : 0);
 
-  // email gate (demo only, front-end)
-  (function(){
-    var KEY='imxp_demo_unlocked';
-    var gate=document.getElementById('gate');
-    if(localStorage.getItem(KEY)){ gate.classList.add('hide'); return; }
-    var form=document.getElementById('gateForm');
-    var email=document.getElementById('gateEmail');
-    var err=document.getElementById('gateErr');
-    var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    form.addEventListener('submit',function(e){
-      e.preventDefault();
-      var v=email.value.trim();
-      if(!re.test(v)){ err.textContent='Please enter a valid email address.'; email.focus(); return; }
-      try{ localStorage.setItem(KEY,'1'); }catch(_){}
-      gate.classList.add('hide');
-    });
-    email.focus();
-  })();
+  // email gate: the email is saved as a lead and every visit is recorded with it
+(function(){
+  var KEY = 'imxp_deck_v2_email';
+  var SUPA_URL = 'https://qmxhsendoepqeyeolzil.supabase.co', SUPA_KEY = 'sb_publishable_qU4HH0buJWQW3_RJk3QlYg_5r84ZfdP';
+  var gate = document.getElementById('gate');
+  var form = document.getElementById('gateForm');
+  var email = document.getElementById('gateEmail');
+  var err = document.getElementById('gateErr');
+  var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function H(){ return {'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'}; }
+  // Visit tracking: active-tab time per visit, written through the deck_view_beat() database function with the viewer's email.
+  function track(email){
+    try{
+      var SID = (crypto.randomUUID ? crypto.randomUUID() : Date.now()+'-'+Math.random().toString(16).slice(2));
+      var ms = 0, last = (document.visibilityState === 'visible' ? Date.now() : null), sent = -1;
+      function tick(){ if (last !== null) { ms += Math.min(Date.now() - last, 60000); last = Date.now(); } }
+      function send(k){
+        tick(); var s = Math.round(ms/1000); if (s < 3 || s === sent) return; sent = s;
+        fetch(SUPA_URL+'/rest/v1/rpc/deck_view_beat', {method:'POST', keepalive:!!k, headers:H(), body:JSON.stringify({p_deck:'imxp-deck-v2', p_session_id:SID, p_email:email, p_seconds:s})}).catch(function(){});
+      }
+      document.addEventListener('visibilitychange', function(){ tick(); last = document.visibilityState === 'visible' ? Date.now() : null; if (document.visibilityState === 'hidden') send(true); });
+      setInterval(function(){ send(false); }, 20000);
+      addEventListener('pagehide', function(){ send(true); });
+    }catch(e){}
+  }
+  function saveLead(email, source){
+    try{
+      fetch(SUPA_URL+'/rest/v1/imxp_deck_leads', {method:'POST', keepalive:true, headers:Object.assign(H(), {'Prefer':'return=minimal'}),
+        body:JSON.stringify({email:email, name:null, source:source, referrer:document.referrer||null, user_agent:navigator.userAgent})}).catch(function(){});
+    }catch(e){}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (_) {}
+  if (saved) { gate.classList.add('hide'); track(saved); return; }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = email.value.trim();
+    if (!re.test(v)) { err.textContent = 'Please enter a valid email address.'; email.focus(); return; }
+    try { localStorage.setItem(KEY, v); } catch (_) {}
+    saveLead(v, 'imxp-deck-v2-gate');
+    gate.classList.add('hide');
+    track(v);
+  });
+  email.focus();
+})();
 </script>
 </body>
 </html>
